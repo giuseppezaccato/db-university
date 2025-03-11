@@ -56,7 +56,7 @@ SELECT * FROM `degrees` WHERE `level` = 'magistrale' LIMIT 0, 1000	38 row(s) ret
 ## 7. Da quanti dipartimenti è composta l'università? (12)
 ```sql
 SELECT COUNT(*) AS 'dipartimenti'
-FROM `DEPARTMENTS`;
+FROM `departments`;
 
 SELECT COUNT(*) AS 'dipartimenti' FROM `DEPARTMENTS` LIMIT 0, 1000	1 row(s) returned	0.000 sec / 0.000 sec
 ```
@@ -65,7 +65,7 @@ SELECT COUNT(*) AS 'dipartimenti' FROM `DEPARTMENTS` LIMIT 0, 1000	1 row(s) retu
 ```sql
 SELECT COUNT(*) AS 'Prof Irraggiungibili'
 FROM `teachers`
-WHERE `phone` <> "null" ;
+WHERE `phone` IS "null" ;
 
 SELECT COUNT(*) AS 'Prof Irraggiungibili' FROM `teachers` WHERE `phone` is null LIMIT 0, 1000	1 row(s) returned	0.000 sec / 0.000 sec
 ```

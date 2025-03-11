@@ -48,7 +48,7 @@ SELECT * FROM `courses` WHERE `period` = 'I semestre' AND `year` = 1 LIMIT 0, 10
 ```sql
 SELECT *
 FROM `degrees`
-WHERE `level` = 'magistrale'; --  WHERE FIND_IN_SET("magistrale", `level`);
+WHERE `level` = 'magistrale'; --  WHERE `name` LIKE '%Mag%';
 
 SELECT * FROM `degrees` WHERE `level` = 'magistrale' LIMIT 0, 1000	38 row(s) returned	0.000 sec / 0.000 sec
 ```

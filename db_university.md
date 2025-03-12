@@ -115,22 +115,48 @@ SELECT COUNT(*) AS "corsi di laurea" , department_id FROM degrees GROUP BY depar
 
 ## 1. Selezionare tutti gli studenti iscritti al Corso di Laurea in Economia
 ```sql
+SELECT * 
+FROM students
+JOIN degrees
+ON students.degree_id = degrees.id
+WHERE website like '%economia%'; --WHERE degrees.website like '%economia%'
 
+SELECT *  FROM students JOIN degrees ON students.degree_id = degrees.id WHERE website like '%economia%' LIMIT 0, 1000	262 row(s) returned	0.000 sec / 0.000 sec
 ```
 
 ## 2. Selezionare tutti i Corsi di Laurea Magistrale del Dipartimento di Neuroscienze
 ```sql
+SELECT * 
+FROM degrees
+JOIN departments
+ON degrees.department_id = departments.id
+WHERE departments.name like "%neuroscienze%" AND level = "magistrale";
 
+SELECT *  FROM degrees JOIN departments ON degrees.department_id = departments.id WHERE departments.name like "%neuroscienze%" AND level = "magistrale" LIMIT 0, 1000	1 row(s) returned	0.016 sec / 0.000 sec
 ```
 
 ## 3. Selezionare tutti i corsi in cui insegna Fulvio Amato (id=44)
 ```sql
+SELECT * 
+FROM teachers
+JOIN course_teacher 
+ON teachers.id = course_teacher.teacher_id
+JOIN courses 
+ON course_teacher.teacher_id = courses.id
+WHERE teachers.name = "fulvio" AND teachers.surname = "amato";
 
+SELECT *  FROM teachers JOIN course_teacher  ON teachers.id = course_teacher.teacher_id JOIN courses  ON course_teacher.teacher_id = courses.id WHERE teachers.name = "fulvio" AND teachers.surname = "amato" LIMIT 0, 1000	11 row(s) returned	0.000 sec / 0.000 sec
 ```
 
 ## 4. Selezionare tutti gli studenti con i dati relativi al corso di laurea a cui sono iscritti e il relativo dipartimento, in ordine alfabetico per cognome e nome
 ```sql
+SELECT *
+FROM students 
+JOIN degrees ON students.degree_id = degrees.id
+JOIN departments ON degrees.department_id = departments.id
+ORDER BY surname, students.name ASC;
 
+SELECT * FROM students  JOIN degrees ON students.degree_id = degrees.id JOIN departments ON degrees.department_id = departments.id ORDER BY surname, students.name ASC LIMIT 0, 1000	1000 row(s) returned	0.063 sec / 0.031 sec
 ```
 
 ## 5. Selezionare tutti i corsi di laurea con i relativi corsi e insegnanti

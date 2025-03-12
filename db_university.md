@@ -187,13 +187,24 @@ SELECT teachers.id as 'identificativo', teachers.name as 'nome' , surname as 'co
 
 ## 7. BONUS: Selezionare per ogni studente il numero di tentativi sostenuti per ogni esame, stampando anche il voto massimo. Successivamente, filtrare i tentativi con voto minimo 18
 ```sql
-SELECT COUNT(*) as `attempts`, students.registration_number as "matricola", students.name, surname, max(vote)
+`!BONUS`
+SELECT students.registration_number as "matricola",COUNT(*) as `attempts`, students.name, surname, max(vote) as "voto massimo"
 FROM students
 JOIN exam_student ON exam_student.student_id = students.id
 JOIN exams ON exam_student.exam_id = exams.id
-GROUP BY students.name, surname, students.id;
+GROUP BY students.id
+
+SELECT students.registration_number as "matricola",COUNT(*) as `attempts`, students.name, surname, max(vote) as "voto massimo" FROM students JOIN exam_student ON exam_student.student_id = students.id JOIN exams ON exam_student.exam_id = exams.id GROUP BY students.id LIMIT 0, 1000	1000 row(s) returned	0.031 sec / 0.016 sec
 
 
-SELECT COUNT(*) as `attempts`, students.registration_number as "matricola", students.name, surname, max(vote) FROM students JOIN exam_student ON exam_student.student_id = students.id JOIN exams ON exam_student.exam_id = exams.id GROUP BY students.name, surname, students.id LIMIT 0, 1000	1000 row(s) returned	0.250 sec / 0.000 sec
+`BONUS`
+SELECT students.registration_number as "matricola",COUNT(*) as `LOWattempts`, students.name, surname, max(vote) as "voto massimo"
+FROM students
+JOIN exam_student ON exam_student.student_id = students.id
+JOIN exams ON exam_student.exam_id = exams.id
+GROUP BY students.id
+HAVING min(vote) = 18; --BONUS filtro applicato DOPO il raggruppamento
+
+SELECT students.registration_number as "matricola",COUNT(*) as `LOWattempts`, students.name, surname, max(vote) as "voto massimo" FROM students JOIN exam_student ON exam_student.student_id = students.id JOIN exams ON exam_student.exam_id = exams.id GROUP BY students.id HAVING min(vote) = 18 LIMIT 0, 1000	51 row(s) returned	0.172 sec / 0.000 sec
 ```
 

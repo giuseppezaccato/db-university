@@ -173,14 +173,14 @@ SELECT * FROM degrees JOIN courses ON degrees.id = courses.degree_id  JOIN cours
 
 ## 6. Selezionare tutti i docenti che insegnano nel Dipartimento di Matematica (54)
 ```sql
-SELECT teachers.id as 'identificativo', teachers.name as 'nome' , surname as 'cognome', departments.name as 'dipartimento'
+SELECT DISTINCT teachers.id as 'identificativo', teachers.name as 'nome' , surname as 'cognome', departments.name as 'dipartimento'
 FROM teachers
 JOIN course_teacher ON teachers.id = course_teacher.teacher_id
 JOIN courses ON course_teacher.course_id = courses.id
 JOIN degrees ON courses.degree_id = degrees.id
 JOIN departments ON degrees.department_id = departments.id
 WHERE departments.name like "%matematica%" --case insensitive
-GROUP BY `identificativo`,`nome`, `cognome`, `dipartimento`; --per togliere le ripetizioni
+-- GROUP BY `identificativo`,`nome`, `cognome`, `dipartimento`; --per togliere le ripetizioni
 
 SELECT teachers.id as 'identificativo', teachers.name as 'nome' , surname as 'cognome', departments.name as 'dipartimento' FROM teachers JOIN course_teacher ON teachers.id = course_teacher.teacher_id JOIN courses ON course_teacher.course_id = courses.id JOIN degrees ON courses.degree_id = degrees.id JOIN departments ON degrees.department_id = departments.id WHERE departments.name like "%matematica%" GROUP BY `identificativo`,`nome`, `cognome`, `dipartimento` LIMIT 0, 1000	54 row(s) returned	0.000 sec / 0.000 sec
 ```
@@ -192,7 +192,8 @@ SELECT students.registration_number as "matricola",COUNT(*) as `attempts`, stude
 FROM students
 JOIN exam_student ON exam_student.student_id = students.id
 JOIN exams ON exam_student.exam_id = exams.id
-GROUP BY students.id
+-- JOIN courses ON exams.course_id = courses.id --NON NECESSARIO
+GROUP BY students.id -- courses.id ----NON NECESSARIO
 
 SELECT students.registration_number as "matricola",COUNT(*) as `attempts`, students.name, surname, max(vote) as "voto massimo" FROM students JOIN exam_student ON exam_student.student_id = students.id JOIN exams ON exam_student.exam_id = exams.id GROUP BY students.id LIMIT 0, 1000	1000 row(s) returned	0.031 sec / 0.016 sec
 
@@ -203,7 +204,7 @@ FROM students
 JOIN exam_student ON exam_student.student_id = students.id
 JOIN exams ON exam_student.exam_id = exams.id
 GROUP BY students.id
-HAVING min(vote) = 18; --BONUS filtro applicato DOPO il raggruppamento
+HAVING vote >= 18; --BONUS filtro applicato DOPO il raggruppamento
 
 SELECT students.registration_number as "matricola",COUNT(*) as `LOWattempts`, students.name, surname, max(vote) as "voto massimo" FROM students JOIN exam_student ON exam_student.student_id = students.id JOIN exams ON exam_student.exam_id = exams.id GROUP BY students.id HAVING min(vote) = 18 LIMIT 0, 1000	51 row(s) returned	0.172 sec / 0.000 sec
 ```
